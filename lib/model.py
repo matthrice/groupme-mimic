@@ -15,8 +15,12 @@ except:
 """Open files"""
 try:
     for filename in filenames:
-        temp_file = open("filename", "r")
+        temp_file = open(filename, 'r')
         text_data.append(temp_file)
 except:
     print("Could not open file")
     sys.exit(2)
+
+markov_model = {}
+build_markov(text_data, markov_model)
+save_model(markov_model, 'markov_model.pickle')
