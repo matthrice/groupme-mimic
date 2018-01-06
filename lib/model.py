@@ -12,15 +12,15 @@ except:
     print("There must be at least one text")
     sys.exit(2)
 
-"""Open files"""
+"""Open file and build markov"""
+markov_model = {}
 try:
     for filename in filenames:
-        temp_file = open(filename, 'r')
-        text_data.append(temp_file)
+        print(filename)
+        with open(filename, 'r') as f:
+            build_markov(f, markov_model)
 except:
     print("Could not open file")
     sys.exit(2)
 
-markov_model = {}
-build_markov(text_data, markov_model)
-save_model(markov_model, 'markov_model.pickle')
+save_model(markov_model, 'models/markov_model.pickle')

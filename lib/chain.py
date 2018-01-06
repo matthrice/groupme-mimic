@@ -3,21 +3,15 @@ import random
 
 def build_markov(text_data, markov_model):
     """Build model using markov chains"""
+    print(text_data)
+    for i, word in enumerate(text):
+        if i == len(line) - 1:
+            markov_model['END'] = markov_model.get('END', []) + [word]
+        else:
+            if i == 0:
+                markov_model['START'] = markov_model.get('START', []) + [word]
+            markov_model[word] = markov_model.get(word, []) + [line[i + 1]]
 
-    for text in text_data:
-        while text:
-            line = text.readline()
-            if line == "":
-                break
-            print(line)
-            line = line.lower().split()
-            for i, word in enumerate(line):
-                if i == len(line) - 1:
-                    markov_model['END'] = markov_model.get('END', []) + [word]
-                else:
-                    if i == 0:
-                        markov_model['START'] = markov_model.get('START', []) + [word]
-                    markov_model[word] = markov_model.get(word, []) + [line[i + 1]]
 
 def save_model(markov_model, filename):
     """Save model as 'markov_model.pickle' """
@@ -35,6 +29,7 @@ def load_model(markov_model, filename):
 
 def generate_sentence(markov_model):
     """Use markov chain to generate sentences"""
+    print(markov_model)
 
     generated = []
     while True:
