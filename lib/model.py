@@ -1,5 +1,6 @@
 import sys
 from chain import build_markov, save_model
+import os
 
 filenames = []
 text_data = []
@@ -14,13 +15,9 @@ except:
 
 """Open file and build markov"""
 markov_model = {}
-try:
-    for filename in filenames:
-        print(filename)
-        with open(filename, 'r') as f:
-            build_markov(f, markov_model)
-except:
-    print("Could not open file")
-    sys.exit(2)
+for filename in filenames:
+    with open(filename, 'r') as f:
+        formatted_text = f.read().replace('\n', '').split('.')
+        build_markov(formatted_text, markov_model)
 
 save_model(markov_model, 'models/markov_model.pickle')
