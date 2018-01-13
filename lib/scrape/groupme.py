@@ -12,6 +12,17 @@ from json import load
 
 message_limit = 100
 
+def check_token(token):
+    """Check the validity of the access token."""
+    try:
+        get_self_id(token)
+        valid = True
+    except:
+        valid = False
+        
+    return valid
+
+
 def get_url(token, chat_type, chat_ID):
     """Retrieve url for chat"""
     if chat_type == 'group':
@@ -69,21 +80,59 @@ def get_directs(token):
 
     return directs
 
-def create_history(json, url, self_id, chat_type, chat_ID, msg_count, msg_limit):
-    """ Create a full chat history
-
+def create_history(name, json, url, chat_type, chat_ID, msg_count):
+    """ Create a full chat history for a specific 
+    
+    @name - name of person 
     @json - GroupMe API response in JSON format
     @url - URL being worked with
-    @self_id - user's GroupMe ID
     @chat_type - the type of chat ('group' or 'direct')
     @chat_id - the chat's id
     @msg_count - total number of messages in the chat
-    @msg_limit - number of messages received in a set
     """
 
+    msg = ''
+    if chat_type == 'group':
+        msg = 'messages'
+    elif chat_type == 'direct':
+        msg = 'direct_messages'
     
+    history = []
+
+    #Get date of most recent message
+    ititial_time = json['response'][msg][0]['created_at']
+    old_date = time.strftime('%A, %d %B %Y', time.localtime(initial_time))
+
+    while msg_count > 0:
+        
+        for i in range(msg_limit):
+            try: epoch_time = json['response'][msg][i]['created_at']
+        except IndexError:
+            msg_count = 0
+            break
+        date - time.strftime('%A, %d %B %Y', time.localtime(epoch_time)
+
+        chat_name = json['response'][msg][i]['name']
+        if chat_name == name:
+            history.append({
+                user_id: json['response'][msg][i]['user_id'],
+                name: chat_name,
+                hour: time.strftime('%H:%M:%S', time.localtime(epoch_time)),
+                text: json['response'][msg][i]['text'].encode('unicode-escape')
+            })
+
+    return history
 
 
     
+def write_single_history(name, full_history):
+    """Records all text from an individual in a readable format"""
+    f = open(('resources/{}_chat_history.txt' % name.replace(' ', '_'), 'w')
 
-
+    for message in full_history:
+        text = message[text]
+        if text[-1] != '.':
+            text += '.'
+        f.write(text)
+    
+    f.close()
