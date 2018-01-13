@@ -1,6 +1,16 @@
 import pickle
 import random
 
+def add_word(key1, key2, markov_model):
+    """add a word to markov model"""
+    if key1 in markov_model:
+        if key2 in markov_model[key1]:
+            markov_model[key1][key2] += 1
+        else:
+            markov_model[key1][key2] = 1
+    else:
+        markov_model[key1] = { key2: 1 }
+
 def build_markov(text_data, markov_model):
     """Build model using markov chains"""
     for line in text_data:
@@ -9,11 +19,11 @@ def build_markov(text_data, markov_model):
             continue
         for i, word in enumerate(line):
             if i == len(line) - 1:
-                markov_model['END'] = markov_model.get('END', []) + [word]
+                add_word('END', word, markov_model)
             else:
                 if i == 0:
-                    markov_model['START'] = markov_model.get('START', []) + [word]
-                markov_model[word] = markov_model.get(word, []) + [line[i + 1]]
+                    add_word('START', word, markov_model)
+                add_word(word, line[i + 1], markov_model)
 
 
 def save_model(markov_model, filename):
@@ -30,17 +40,25 @@ def load_model(filename):
 
     return markov_model
 
+def build_choice_set(markov_model, word):
+    """Build array for random next choice"""
+    words = []
+    for key, value in markov_model[word].items():
+        for i in range(value):
+            words.append(key)
+    return words
+
 def generate_sentence(markov_model):
     """Use markov chain to generate sentences"""
 
     generated = []
     while True:
         if not generated:
-            words = markov_model['START']
+            words = build_choice_set(markov_model, 'START')
         elif generated[-1] in markov_model['END']:
             break
         else:
-            words = markov_model[generated[-1]]
+            words = build_choice_set(markov_model, generated[-1])
         generated.append(random.choice(words))
     
     return " ".join(generated) + "."
