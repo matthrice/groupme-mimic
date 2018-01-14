@@ -8,13 +8,16 @@ import os
 import time
 
 import requests
+import requests_cache
 from json import load
 
 TOKEN = 'b9rW31lfwxhnxLHWt0M86sAqjfVTtdu2KFQEXffO'
 LIST_CERF_ID = '28057504'
-BAKER_ID = '212697597'
+BAKER_ID = '20810670'
 
 MESSAGE_LIMIT = 100
+
+requests_cache.install_cache('groupme_cache')
 
 
 def check_token(token):
@@ -105,36 +108,34 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
         msg = 'messages'
     elif chat_type == 'direct':
         msg = 'direct_messages'
-    
     history = []
-
     #Get date of most recent message
     initial_time = json['response'][msg][0]['created_at']
     old_date = time.strftime('%A, %d %B %Y', time.localtime(initial_time))
 
     while msg_count > 0:
-        print(msg_count)
-
         if msg_count < msg_limit:
             msg_limit = msg_count % msg_limit
         
         for i in range(msg_limit):
-            try: 
-                epoch_time = json['response'][msg][i]['created_at']
-            except IndexError:
-                msg_count = 0
-                break
-        date = time.strftime('%A, %d %B %Y', time.localtime(epoch_time))
 
-        u_id = json['response'][msg][i]['id']
-        if u_id == id:
-            history.append({
-                user_id: u_id,
-                name: json['response'][msg][i]['name'],
-                hour: time.strftime('%H:%M:%S', time.localtime(epoch_time)),
-                text: json['response'][msg][i]['text'].encode('unicode-escape')
-            })
-        msg_count -= 1
+            u_id = json['response'][msg][i]['user_id']
+            if u_id == id:
+                temp = {}
+                temp['user_id'] = u_id
+                temp['name'] = json['response'][msg][i]['name']
+                text = json['response'][msg][i]['text']
+                if text:
+                    temp['text'] = text
+                history.append(temp)
+            msg_count -= 1
+            if msg_count != 0 and i == msg_limit - 1:
+                try:
+                    before_id = json['response'][msg][i]['id']
+                    new_url = "{}&before_id={}".format(url, before_id)
+                    json = get_json(new_url)
+                except requests.HTTPError:
+                    msg_count = 0
 
     return history
 
@@ -147,18 +148,27 @@ def write_single_history(name, full_history):
     f = open(filename, 'w')
 
     for message in full_history:
-        print(message)
-        text = message[text]
-        if text[-1] != '.':
-            text += '.'
-        f.write(text)
+        if 'text' in message:
+            text = message['text']
+            text = clean_message(text)
+            f.write(text)
     
     f.close()
+
+def clean_message(text):
+    text = text.replace('@', '') # remove @ symbols
+    text = text.replace('*', '') # remove * symbols
+    text = text.strip(' ')          # strip whitespace
+    if text[-1] != '.':   # add period to end
+        text += '.'
+    text = ' ' + text     # add space to beginning
+    print(text)
+    return text
 
 def test_baker():
     url = get_url(TOKEN, 'group', LIST_CERF_ID)
     i_json = get_json(url)
-    history = create_history(BAKER_ID, i_json, url, 'group', LIST_CERF_ID, 100, MESSAGE_LIMIT)
+    history = create_history(BAKER_ID, i_json, url, 'group', LIST_CERF_ID, 10000, MESSAGE_LIMIT)
     write_single_history('baker', history)
 
 test_baker() 
