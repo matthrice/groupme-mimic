@@ -10,6 +10,7 @@ Provided the following parameters, the scraper is capable over reviewing many th
 - GroupMe access token (found on GroupMe Dev)
 - Groupchat ID
 - User ID of the friend 
+
 Other options for tweaking the scraper include message count, message limit, filenames and pathnames. 
 The scraper will compile all the messages into 'novel' format, where each message follows the next with correct punctuation, making it more readable for the modeling mechanism.
 
@@ -19,6 +20,7 @@ The modeling process takes each sentence of the message history file and generat
 - 'red' -> 'apple'
 - 'how' -> 'do' -> 'I'
 - 'markov' -> 'chain'
+
 Each following word is given a likelihood, based on the number of times it occurs after the previous word in the friend's messaging history. 
 We train the Markov model using the full messaging history we just scraped off GroupMe and use that in prediction. 
 
