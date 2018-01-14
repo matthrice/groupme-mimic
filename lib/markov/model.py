@@ -1,5 +1,5 @@
 import sys
-from chain import build_markov, save_model
+from lib.markov.chain import build_markov, save_model
 import os
 
 filenames = []
@@ -20,4 +20,4 @@ for filename in filenames:
         formatted_text = f.read().replace('\n', '').split('.')
         build_markov(formatted_text, markov_model)
 
-save_model(markov_model, 'models/markov_model.pickle')
+save_model(markov_model, 'models/markovmodel.pickle')

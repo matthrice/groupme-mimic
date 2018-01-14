@@ -1,6 +1,7 @@
-from chain import load_model, generate_sentence
+from lib.markov.chain import load_model, generate_sentence
 
-markov_model = load_model('models/markov_model.pickle')
-sentence = generate_sentence(markov_model)
+def generate_sentence(model_path):
+    markov_model = load_model(model_path)
+    sentence = generate_sentence(markov_model)
 
-print(sentence)
+    print(sentence)

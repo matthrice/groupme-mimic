@@ -143,7 +143,7 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
     
 def write_single_history(name, full_history):
     """Records all text from an individual in a readable format"""
-    filename = 'resources/{}_chat_history.txt'.format(name)
+    filename = 'resources/{}chathistory.txt'.format(name)
     filename = filename.replace(' ', '_')
     f = open(filename, 'w')
 
