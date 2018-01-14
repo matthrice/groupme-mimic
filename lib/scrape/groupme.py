@@ -170,5 +170,3 @@ def test_baker():
     i_json = get_json(url)
     history = create_history(BAKER_ID, i_json, url, 'group', LIST_CERF_ID, 10000, MESSAGE_LIMIT)
     write_single_history('baker', history)
-
-test_baker() 
