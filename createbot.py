@@ -3,7 +3,7 @@ import os
 import lib.markov.model as mod
 import lib.markov.generate as gen
 import lib.scrape.groupme as gm
-from settings import TOKEN, GROUP_ID, USER_ID
+from settings import TOKEN, GROUP_ID, USER_ID, MSG_COUNT, MSG_LIMIT
 
 '''
 Parameters to perform task:
@@ -16,7 +16,7 @@ Parameters to perform task:
 @name: (no spaces) used for filenaming
 '''
 
-# url = get_url(TOKEN, 'group', LIST_CERF_ID)
-# i_json = get_json(url)
-# history = create_history(BAKER_ID, i_json, url, 'group', LIST_CERF_ID, 10000, MESSAGE_LIMIT)
-# write_single_history('baker', history)
+url = get_url(TOKEN, 'group', GROUP_ID)
+i_json = get_json(url)
+history = create_history(USER_ID, i_json, url, 'group', GROUP_ID, MSG_COUNT, MSG_LIMIT)
+write_single_history('baker', history)
