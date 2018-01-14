@@ -141,9 +141,9 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
 
 
     
-def write_single_history(name, full_history):
+def write_single_history(path, name, full_history):
     """Records all text from an individual in a readable format"""
-    filename = 'resources/{}chathistory.txt'.format(name)
+    filename = os.path.join(path, '{}chathistory.txt'.format(name))
     filename = filename.replace(' ', '_')
     f = open(filename, 'w')
 
@@ -159,14 +159,25 @@ def clean_message(text):
     text = text.replace('@', '') # remove @ symbols
     text = text.replace('*', '') # remove * symbols
     text = text.strip(' ')          # strip whitespace
-    if text[-1] != '.':   # add period to end
+    if text[-1] != '.' or text[-1] != '?' or text[-1] != '!':   # add period to end
         text += '.'
     text = ' ' + text     # add space to beginning
-    print(text)
     return text
 
-def test_baker():
-    url = get_url(TOKEN, 'group', LIST_CERF_ID)
+def scrape_history(token, group_id, user_id, user_name, path, message_count, message_limit):
+    """Method to scrape for all user groupme history
+    
+    Parameters:
+        @token: dev groupme token
+        @group_id: groupme group id
+        @user_id: groupme user_id
+        @user_name: (no spaces) used for filenaming
+        @path: directory for resulting .txt file
+        @msg_count: desired number of messages to go through
+        @msg_limit: set at 100
+
+    """
+    url = get_url(token, 'group', group_id)
     i_json = get_json(url)
-    history = create_history(BAKER_ID, i_json, url, 'group', LIST_CERF_ID, 10000, MESSAGE_LIMIT)
-    write_single_history('baker', history)
+    history = create_history(user_id, i_json, url, 'group', group_id, message_count, message_limit)
+    write_single_history(path, user_name, history)

@@ -15,3 +15,4 @@ USER_ID = os.environ.get("USER_ID")
 USER_NAME = os.environ.get("USER_NAME")
 MSG_COUNT = 10000 # default to 10,000 messages
 MSG_LIMIT = 100 # default to 100 (cannot exceed
+PATH = 'resources'

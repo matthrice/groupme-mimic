@@ -2,22 +2,15 @@ import sys
 from lib.markov.chain import build_markov, save_model
 import os
 
-filenames = []
-text_data = []
-markov_model = {}
+MODEL_PATH = 'models/markovmodel.pickle'
 
-"""Get command line file arguments"""
-try:
-    filenames = sys.argv[1:]
-except:
-    print("There must be at least one text")
-    sys.exit(2)
+def model_markov(path, filename):
+    markov_model = {}
 
-"""Open file and build markov"""
-markov_model = {}
-for filename in filenames:
-    with open(filename, 'r') as f:
+    """Open file and build markov"""
+    full_path = os.path.join(path, '{}chathistory.txt'.format(filename))
+    with open(full_path, 'r') as f:
         formatted_text = f.read().replace('\n', '').split('.')
         build_markov(formatted_text, markov_model)
 
-save_model(markov_model, 'models/markovmodel.pickle')
+    save_model(markov_model, MODEL_PATH)
