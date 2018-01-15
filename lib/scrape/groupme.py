@@ -189,6 +189,7 @@ def get_groupme_info(token, chat_name, user_name):
 
         Returns chat_id and user_id
     """
+
     json = get_json('https://api.groupme.com/v3/groups?token={}'.format(token))
     chat_id = ''
     user_id = ''
@@ -196,7 +197,6 @@ def get_groupme_info(token, chat_name, user_name):
         if chat['name'] == chat_name:
             chat_id = chat['id']
             for member in chat['members']:
-                print(member)
                 if member['nickname'] == user_name:
                     user_id = member['user_id']
                     break
