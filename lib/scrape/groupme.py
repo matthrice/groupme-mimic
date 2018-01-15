@@ -51,9 +51,6 @@ def get_json(url):
     json = res.json()
 
     return json
-
-def get_chat_id(token):
-    print(get_json('https://api.groupme.com/v3/groups?token={}'.format(token)))
     
 
 def get_self_id(token):
@@ -181,3 +178,27 @@ def scrape_history(token, group_id, user_id, user_name, path, message_count, mes
     i_json = get_json(url)
     history = create_history(user_id, i_json, url, 'group', group_id, message_count, message_limit)
     write_single_history(path, user_name, history)
+
+def get_groupme_info(token, chat_name, user_name):
+    """Returns chat_id, user_id info
+    
+    Parameters:
+        @token: dev API token
+        @chat_name: name of desired chat
+        @user_name: name of desired user
+
+        Returns chat_id and user_id
+    """
+    json = get_json('https://api.groupme.com/v3/groups?token={}'.format(token))
+    chat_id = ''
+    user_id = ''
+    for chat in json['response']:
+        if chat['name'] == chat_name:
+            chat_id = chat['id']
+            for member in chat['members']:
+                print(member)
+                if member['nickname'] == user_name:
+                    user_id = member['user_id']
+                    break
+            break
+    return chat_id, user_id

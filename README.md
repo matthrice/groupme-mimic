@@ -33,3 +33,4 @@ We start at one of the many words that occur at the beginning of sentences (indi
 - All words which occur at the end of a sentence will halt the prediction process, resulting in many sentences which don't seem quite finished
 - Doesn't check for grammar, resulting in a lot of sentences which are nonsense
 - Only produces sentence by sentence, and doesn't use the sentence for anything useful
+- Finding GroupMe IDs is not trivial, would be useful to implement a consistent method to retrieve IDs
