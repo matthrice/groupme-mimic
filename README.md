@@ -30,6 +30,6 @@ We start at one of the many words that occur at the beginning of sentences (indi
 
 
 ### Current flaws
-- All words which occur at the end of a sentence will halt the prediction process, resulting in many sentences which don't seem quite finished
 - Doesn't check for grammar, resulting in a lot of sentences which are nonsense
+    - http://www.nltk.org/book/ch08.html
 - Only produces sentence by sentence, and doesn't use the sentence for anything useful

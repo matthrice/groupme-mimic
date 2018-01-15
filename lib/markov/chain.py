@@ -73,7 +73,9 @@ def generate_sentence(markov_model):
             words = build_choice_set(markov_model, generated[-1])
         generated.append(random.choice(words))
     
-    if not (generated[-1][-1] == '!' or generated[-1][-1] == '?'):
+    if not (generated[-1][-1] == '!' 
+            or generated[-1][-1] == '?'
+            or generated[-1][-1] == '.'):
         generated[-1] += '.'
 
     return ' '.join(generated)
