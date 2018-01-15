@@ -56,9 +56,24 @@ def generate_sentence(markov_model):
         if not generated:
             words = build_choice_set(markov_model, 'START')
         elif generated[-1] in markov_model['END']:
-            break
+            if generated[-1] in markov_model: # if it also has words which follow it
+                freq_end = markov_model['END'][generated[-1]]
+                freq_middle = 0
+                for key in markov_model[generated[-1]]:
+                    freq_middle += markov_model[generated[-1]][key]
+                
+                odds = freq_middle / (freq_end + freq_middle)
+                if random.random() < odds: # case middle wins
+                    words = build_choice_set(markov_model, generated[-1])
+                else:
+                    break
+            else:
+                break
         else:
             words = build_choice_set(markov_model, generated[-1])
         generated.append(random.choice(words))
     
-    return " ".join(generated) + "."
+    if not (generated[-1][-1] == '!' or generated[-1][-1] == '?'):
+        generated[-1] += '.'
+
+    return ' '.join(generated)
