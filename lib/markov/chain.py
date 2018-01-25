@@ -28,7 +28,7 @@ def build_markov(text_data, markov_model):
 
 def save_model(markov_model, filename):
     """Save model as 'markov_model.pickle' """
-    pickle_out = open(filename, 'wb')
+    pickle_out = open(filename, 'wb+')
     pickle.dump(markov_model, pickle_out)
     pickle_out.close()
 

@@ -142,7 +142,7 @@ def write_single_history(path, name, full_history):
     """Records all text from an individual in a readable format"""
     filename = os.path.join(path, '{}chathistory.txt'.format(name))
     filename = filename.replace(' ', '_')
-    f = open(filename, 'w')
+    f = open(filename, 'w+')
 
     for message in full_history:
         if 'text' in message:

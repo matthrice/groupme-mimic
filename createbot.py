@@ -3,16 +3,21 @@ import os
 from lib.markov.model import model_markov
 from lib.markov.generate import generate
 from lib.scrape.groupme import scrape_history, get_groupme_info
-from settings import TOKEN, GROUP_ID, USER_ID, USER_NAME, PATH, MSG_COUNT, MSG_LIMIT
+from settings import GLOBALS
 
+def create_bot(token, group_name, user_name, path, msg_count, msg_limit, rescrape=True, retrain=True):
+	chat_id, user_id = get_groupme_info(token, group_name, user_name)
+	filename = user_name.replace(" ", "")
+	if rescrape:
+		scrape_history(token, chat_id, user_id, filename, path, msg_count, msg_limit)
+	if retrain:
+		model_markov(path, filename)
+	generate()
 
-
-def create_bot(group_name=GROUP_ID, user_name=USER_ID, rescrape=True, retrain=True):
-    if rescrape:
-        scrape_history(TOKEN, group_id, user_id, USER_NAME, PATH, MSG_COUNT, MSG_LIMIT)
-    if retrain:
-        model_markov(PATH, USER_NAME)
-    generate()
-
-chat_id, user_id = get_groupme_info(TOKEN, 'List Cerf', 'Steve Maslin')
-create_bot(chat_id, user_id, False, False)
+create_bot(GLOBALS['token'],
+		   GLOBALS['group_name'],
+		   GLOBALS['user_name'],
+		   GLOBALS['path'],
+		   GLOBALS['msg_count'],
+		   GLOBALS['msg_limit'],
+		   True, True)
