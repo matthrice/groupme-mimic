@@ -17,7 +17,7 @@ BAKER_ID = '20810670'
 
 MESSAGE_LIMIT = 100
 
-requests_cache.install_cache('groupme_cache')
+requests_cache.install_cache('resources/groupme_cache')
 
 
 def check_token(token):
@@ -106,9 +106,6 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
     elif chat_type == 'direct':
         msg = 'direct_messages'
     history = []
-    #Get date of most recent message
-    initial_time = json['response'][msg][0]['created_at']
-    old_date = time.strftime('%A, %d %B %Y', time.localtime(initial_time))
 
     while msg_count > 0:
         if msg_count < msg_limit:
