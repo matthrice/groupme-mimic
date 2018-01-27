@@ -7,4 +7,4 @@ def generate():
     sentence = ''
     while len(sentence.split()) < 5: # desired length greater than 5
         sentence = generate_sentence(markov_model)
-    print(sentence)
+    return sentence

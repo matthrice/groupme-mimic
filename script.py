@@ -35,18 +35,10 @@ def run_bot(args_file, retrain=False, reregister=False, repickle=False):
 		     BOT['avatar_url']
 			 )
 
-	if (repickle):
-		pickle_out = open(args_file, 'wb+')
-		pickle.dump(persistent_args, pickle_out)
-		pickle_out.close()
-
-
-	pickle_in = open(args_file, 'rb')
-	args2 = pickle.load(pickle_in)
 
 	message = generate()
 
-	write_message(args2['bot_id'], message)
+	write_message(persistent_args['bot_id'], message)
 
-run_bot(ARGS_PATH, True, True, True)
+run_bot(ARGS_PATH, retrain=True, reregister=True)
 

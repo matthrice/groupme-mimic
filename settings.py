@@ -16,3 +16,4 @@ BOT = {
 
 # id = 7616149
 # nick id = 17421152
+# bot_id = 33b29fe874afde1924583f71b5
