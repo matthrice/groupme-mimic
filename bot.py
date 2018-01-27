@@ -9,14 +9,14 @@ def register_bot(token, group_name, user_name, bot_name, avatar_url):
 	chat_id, user_id = get_groupme_info(token, group_name, user_name)
 	bot_data = {
 		"bot" : {
-		"name" : bot_name,
-		"group_id" : chat_id
+			"name" : bot_name,
+			"group_id" : chat_id
 		}
 	}
 
-
-	res = requests.post(URL, bot_data);
+	res = requests.post(URL, data=bot_data);
 	json = res.json()
+	print(json)
 	return json['response']['bot_id'];
 
 def write_message(bot_id, message):

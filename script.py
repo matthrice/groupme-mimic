@@ -34,6 +34,7 @@ def run_bot(args_file, retrain=False, reregister=False, repickle=False):
 		     BOT['bot_name'],
 		     BOT['avatar_url']
 			 )
+
 	if (repickle):
 		pickle_out = open(args_file, 'wb+')
 		pickle.dump(persistent_args, pickle_out)
