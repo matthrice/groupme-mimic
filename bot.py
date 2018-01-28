@@ -10,14 +10,12 @@ def register_bot(token, group_name, user_name, bot_name, avatar_url):
 	chat_id, user_id = get_groupme_info(token, group_name, user_name)
 	bot_data = {
 		"bot": {
-			"name" : "nickbot",
-			"group_id" : "7616149"
+			"name" : bot_name,
+			"group_id" : chat_id
 		}
 	}
 	res = requests.post(URL, data=json.dumps(bot_data));
 	json_obj = res.json()
-	print(json_obj)
-	print(json_obj['response']['bot']['bot_id'])
 	return json_obj['response']['bot']['bot_id'];
 
 def write_message(bot_id, message):
@@ -30,3 +28,6 @@ def write_message(bot_id, message):
 	}
 
 	res = requests.post(URL, data=json.dumps(bot_data))
+
+def delete_bot(bot_id):
+	URL = "https://api.groupme.com/v3/bots/destroy"

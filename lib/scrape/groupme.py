@@ -6,6 +6,7 @@ Access token from: https://dev.groupme.com/
 
 import os
 import time
+import math
 
 import requests
 import requests_cache
@@ -107,12 +108,14 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
         msg = 'direct_messages'
     history = []
 
-    while msg_count > 0:
-        if msg_count < msg_limit:
-            msg_limit = msg_count % msg_limit
-        
-        for i in range(msg_limit):
 
+    num_messages = min(msg_count, len(json['response'][msg]))
+    while num_messages > 0:
+        if num_messages < msg_limit:
+            msg_limit = num_messages % msg_limit
+        print('a')
+
+        for i in range(msg_limit):
             u_id = json['response'][msg][i]['user_id']
             if u_id == id:
                 temp = {}
@@ -122,14 +125,7 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
                 if text:
                     temp['text'] = text
                 history.append(temp)
-            msg_count -= 1
-            if msg_count != 0 and i == msg_limit - 1:
-                try:
-                    before_id = json['response'][msg][i]['id']
-                    new_url = "{}&before_id={}".format(url, before_id)
-                    json = get_json(new_url)
-                except requests.HTTPError:
-                    msg_count = 0
+            num_messages -= 1
 
     return history
 
