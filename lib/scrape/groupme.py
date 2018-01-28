@@ -113,7 +113,6 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
     while num_messages > 0:
         if num_messages < msg_limit:
             msg_limit = num_messages % msg_limit
-        print('a')
 
         for i in range(msg_limit):
             u_id = json['response'][msg][i]['user_id']

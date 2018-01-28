@@ -29,5 +29,10 @@ def write_message(bot_id, message):
 
 	res = requests.post(URL, data=json.dumps(bot_data))
 
-def delete_bot(bot_id):
+def destroy_bot(bot_id):
 	URL = "https://api.groupme.com/v3/bots/destroy"
+	bot_data = {
+		"bot_id" : bot_id
+	}
+
+	res = requests.post(URL, data=json.dumps(bot_data))

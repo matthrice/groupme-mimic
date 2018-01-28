@@ -1,14 +1,14 @@
 from settings import BOT, GLOBALS
 from train import train
 from lib.markov.generate import generate
-from bot import register_bot, write_message
+from bot import register_bot, write_message, destroy_bot
 import pickle
 
 ARGS_PATH = 'models/bot_id.pickle'
 
 
 
-def run_bot(args_file, retrain=False, reregister=False):
+def run_bot(retrain=False, reregister=False):
 	
 	chat_id = ''
 	user_id = ''
@@ -33,18 +33,17 @@ def run_bot(args_file, retrain=False, reregister=False):
 		     BOT['avatar_url']
 			 )
 	
-	pickle_out = open(ARGS_PATH, 'wb+')
-	pickle.dump(bot_id, pickle_out)
-	pickle_out.close()
+		pickle_out = open(ARGS_PATH, 'wb+')
+		pickle.dump(bot_id, pickle_out)
+		pickle_out.close()
 
 	pickle_in = open(ARGS_PATH, 'rb')
 	bot_id = pickle.load(pickle_in)
-	print(bot_id)
 
-	print(generate())
+	message = generate()
 
-	# write_message(bot_id, message)
+	write_message(bot_id, message)
 
 
-run_bot(ARGS_PATH, retrain=True, reregister=True)
+run_bot(retrain=False, reregister=False)
 

@@ -6,7 +6,6 @@ from settings import GLOBALS, BOT
 
 def train(token, group_name, user_name, path, msg_count, msg_limit):
 	chat_id, user_id = get_groupme_info(token, group_name, user_name)
-	print(chat_id, user_id)
 	filename = user_name.replace(" ", "")
 	scrape_history(token, chat_id, user_id, filename, path, msg_count, msg_limit)
 	model_markov(path, filename)
