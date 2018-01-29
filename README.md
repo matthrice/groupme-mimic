@@ -1,17 +1,17 @@
-# remark-ov
+# GroupMe Mimic
 
 ## Markov chaining your GroupMe friends history
 
-Generates a bot capable of mimicking a GroupMe friend's language based on their history in a specific chat. 
+Generates a bot capable of mimicking a GroupMe friend's language based on their history in a specific chat.
 
 ### GroupMe Scraping
 
 Provided the following parameters, the scraper is capable over reviewing many thousands of messages to compile a full history of the friend:
 - GroupMe access token (found on GroupMe Dev)
 - Groupchat ID
-- User ID of the friend 
+- User ID of the friend
 
-Other options for tweaking the scraper include message count, message limit, filenames and pathnames. 
+Other options for tweaking the scraper include message count, message limit, filenames and pathnames.
 The scraper will compile all the messages into 'novel' format, where each message follows the next with correct punctuation, making it more readable for the modeling mechanism.
 
 ### Markov Chaining
@@ -21,8 +21,8 @@ The modeling process takes each sentence of the message history file and generat
 - 'how' -> 'do' -> 'I'
 - 'markov' -> 'chain'
 
-Each following word is given a likelihood, based on the number of times it occurs after the previous word in the friend's messaging history. 
-We train the Markov model using the full messaging history we just scraped off GroupMe and use that in prediction. 
+Each following word is given a likelihood, based on the number of times it occurs after the previous word in the friend's messaging history.
+We train the Markov model using the full messaging history we just scraped off GroupMe and use that in prediction.
 
 ### Prediction
 
@@ -32,4 +32,8 @@ We start at one of the many words that occur at the beginning of sentences (indi
 ### Current flaws
 - Doesn't check for grammar, resulting in a lot of sentences which are nonsense
     - http://www.nltk.org/book/ch08.html
-- Only produces sentence by sentence, and doesn't use the sentence for anything useful
+- Little to none error checking. Potential errors:
+    - registering twice
+    - not registering at all
+    - not providing a valid groupname
+    - not providing a valid username
