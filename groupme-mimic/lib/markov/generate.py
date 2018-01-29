@@ -1,6 +1,6 @@
 from lib.markov.chain import load_model, generate_sentence
 
-MODEL_PATH = 'models/markovmodel.pickle'
+MODEL_PATH = 'groupme-mimic/models/markovmodel.pickle'
 
 def generate():
     markov_model = load_model(MODEL_PATH)

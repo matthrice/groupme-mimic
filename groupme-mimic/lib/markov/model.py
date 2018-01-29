@@ -2,7 +2,7 @@ import sys
 from lib.markov.chain import build_markov, save_model
 import os
 
-MODEL_PATH = 'models/markovmodel.pickle'
+MODEL_PATH = 'groupme-mimic/models/markovmodel.pickle'
 
 def model_markov(path, filename):
     markov_model = {}

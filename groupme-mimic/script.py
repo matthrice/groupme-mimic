@@ -4,12 +4,12 @@ from lib.markov.generate import generate
 from bot import register_bot, write_message, destroy_bot
 import pickle
 
-ARGS_PATH = 'models/bot_id.pickle'
+ARGS_PATH = 'groupme-mimic/models/bot_id.pickle'
 
 
 
 def run_bot(retrain=False, reregister=False):
-	
+
 	chat_id = ''
 	user_id = ''
 	bot_id = ''
@@ -32,7 +32,7 @@ def run_bot(retrain=False, reregister=False):
 		     BOT['bot_name'],
 		     BOT['avatar_url']
 			 )
-	
+
 		pickle_out = open(ARGS_PATH, 'wb+')
 		pickle.dump(bot_id, pickle_out)
 		pickle_out.close()
@@ -45,5 +45,5 @@ def run_bot(retrain=False, reregister=False):
 	write_message(bot_id, message)
 
 
-run_bot(retrain=False, reregister=False)
+run_bot(retrain=True, reregister=True)
 

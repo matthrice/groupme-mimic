@@ -4,7 +4,7 @@ GLOBALS = {
 	'token': 'NC1Kw8CCNntVfjBTU5VDc2F6OOGT7sn912dDx5i3',
 	'msg_count': 10000,
 	'msg_limit': 100,
-	'path': 'resources'
+	'path': 'groupme-mimic/resources'
 }
 
 BOT = {

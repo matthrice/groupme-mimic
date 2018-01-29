@@ -18,7 +18,7 @@ BAKER_ID = '20810670'
 
 MESSAGE_LIMIT = 100
 
-requests_cache.install_cache('resources/groupme_cache')
+requests_cache.install_cache('groupme-mimic/resources/groupme_cache')
 
 
 def check_token(token):
@@ -28,7 +28,7 @@ def check_token(token):
         valid = True
     except:
         valid = False
-        
+
     return valid
 
 
@@ -41,7 +41,7 @@ def get_url(token, chat_type, chat_ID):
         url = 'https://api.groupme.com/v3/direct_messages'
         url += '?other_user_id={}'.format(chat_ID)
         url += "&token={}".format(token)
-    
+
     url += "&limit={}".format(MESSAGE_LIMIT)
 
     return url
@@ -52,7 +52,7 @@ def get_json(url):
     json = res.json()
 
     return json
-    
+
 
 def get_self_id(token):
     """Obtain a user's ID given token"""
@@ -67,7 +67,7 @@ def get_groups(token):
     url = 'https://api.groupme.com/v3/groups?token={}'.format(token)
     json = get_json(url)
     response = json['response']
-    
+
     groups = []
     for i in response:
         ID = i['id']
@@ -81,7 +81,7 @@ def get_directs(token):
     url = 'https://api.groupme.com/v3/chats?token={}'.format(token)
     json = get_json(url)
     response = json['response']
-    
+
     directs = []
     for i in response:
         ID = i['other_user']['id']
@@ -91,9 +91,9 @@ def get_directs(token):
     return directs
 
 def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
-    """ Create a full chat history for a specific 
-    
-    @name - name of person 
+    """ Create a full chat history for a specific
+
+    @name - name of person
     @json - GroupMe API response in JSON format
     @url - URL being worked with
     @chat_type - the type of chat ('group' or 'direct')
@@ -129,7 +129,7 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
     return history
 
 
-    
+
 def write_single_history(path, name, full_history):
     """Records all text from an individual in a readable format"""
     filename = os.path.join(path, '{}chathistory.txt'.format(name))
@@ -141,7 +141,7 @@ def write_single_history(path, name, full_history):
             text = message['text']
             text = clean_message(text)
             f.write(text)
-    
+
     f.close()
 
 def clean_message(text):
@@ -155,7 +155,7 @@ def clean_message(text):
 
 def scrape_history(token, group_id, user_id, user_name, path, message_count, message_limit):
     """Method to scrape for all user groupme history
-    
+
     Parameters:
         @token: dev groupme token
         @group_id: groupme group id
@@ -173,7 +173,7 @@ def scrape_history(token, group_id, user_id, user_name, path, message_count, mes
 
 def get_groupme_info(token, chat_name, user_name):
     """Returns chat_id, user_id info
-    
+
     Parameters:
         @token: dev API token
         @chat_name: name of desired chat
