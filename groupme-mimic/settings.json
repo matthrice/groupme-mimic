@@ -1,8 +1,7 @@
 {
-    "token": "NC1Kw8CCNntVfjBTU5VDc2F6OOGT7sn912dDx5i3",
-    "group_name": "test",
-    "user_name": "Matt Rice",
-    "bot_name": "matt",
-    "avatar_url": "https://vignette.wikia.nocookie.net/ghostbusters/images/1/11/Bill_Murray.jpeg/revision/latest?cb=20081013140955",
+    "token": "Enter token name",
+    "group_name": "Enter group name",
+    "user_name": "Enter user name",
+    "bot_name": "Enter bot name",
     "frequency_per_day": 4
 }
