@@ -18,7 +18,7 @@ BAKER_ID = '20810670'
 
 MESSAGE_LIMIT = 100
 
-requests_cache.install_cache('groupme-mimic/resources/groupme_cache')
+requests_cache.install_cache('groupme-cache')
 
 
 def check_token(token):

@@ -16,7 +16,11 @@ def register_bot(token, group_name, user_name, bot_name, avatar_url):
 	}
 	res = requests.post(URL, data=json.dumps(bot_data));
 	json_obj = res.json()
-	return json_obj['response']['bot']['bot_id'];
+	return {
+		'chat_id': chat_id,
+		'user_id': user_id,
+		'bot_id': json_obj['response']['bot']['bot_id']
+	}
 
 def write_message(bot_id, message):
 	"""Send a message into the defined group using Groupme API"""

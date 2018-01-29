@@ -1,8 +1,7 @@
 from lib.markov.chain import load_model, generate_sentence
 
-MODEL_PATH = 'groupme-mimic/models/markovmodel.pickle'
 
-def generate():
+def generate(MODEL_PATH):
     markov_model = load_model(MODEL_PATH)
     sentence = ''
     while len(sentence.split()) < 5: # desired length greater than 5

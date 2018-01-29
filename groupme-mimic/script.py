@@ -1,49 +1,44 @@
 from settings import BOT, GLOBALS
 from train import train
 from lib.markov.generate import generate
-from bot import register_bot, write_message, destroy_bot
+from bot import write_message, destroy_bot
 import pickle
+import time
+import os
 
-ARGS_PATH = 'groupme-mimic/models/bot_id.pickle'
+
+CURR_PATH = os.path.abspath(os.curdir)
+ARGS_PATH = os.path.join(CURR_PATH, 'models/bot_info.pickle')
+MODEL_PATH = os.path.join(CURR_PATH, 'models/markovmodel.pickle')
+HISTORY_PATH = os.path.join(CURR_PATH, 'resources')
 
 
+def run_bot():
 
-def run_bot(retrain=False, reregister=False):
+	pickle_in = open(ARGS_PATH, 'rb')
+	bot_info = pickle.load(pickle_in)
 
-	chat_id = ''
-	user_id = ''
-	bot_id = ''
 
-	if (retrain):
+	while(1):
 
-		chat_id, user_id = train(GLOBALS['token'],
-			 BOT['group_name'],
+		train(GLOBALS['token'],
+			 bot_info['chat_id'],
+			 bot_info['user_id'],
 			 BOT['user_name'],
-			 GLOBALS['path'],
+			 HISTORY_PATH,
+			 MODEL_PATH,
 			 GLOBALS['msg_count'],
 			 GLOBALS['msg_limit']
 			 )
 
-	if (reregister):
 
-		bot_id = register_bot(GLOBALS['token'],
-		     BOT['group_name'],
-		     BOT['user_name'],
-		     BOT['bot_name'],
-		     BOT['avatar_url']
-			 )
+		message = generate(MODEL_PATH)
+		print(message)
 
-		pickle_out = open(ARGS_PATH, 'wb+')
-		pickle.dump(bot_id, pickle_out)
-		pickle_out.close()
+		write_message(bot_info['bot_id'], message)
 
-	pickle_in = open(ARGS_PATH, 'rb')
-	bot_id = pickle.load(pickle_in)
-
-	message = generate()
-
-	write_message(bot_id, message)
+		time.sleep(5)
 
 
-run_bot(retrain=True, reregister=True)
+run_bot()
 
