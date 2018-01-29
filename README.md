@@ -1,6 +1,6 @@
 # GroupMe Mimic
 
-## Markov chaining your GroupMe friends history
+## Markov chaining your GroupMe friend's history
 
 Generates a bot capable of mimicking a GroupMe friend's language based on their history in a specific chat.
 
@@ -8,6 +8,7 @@ Generates a bot capable of mimicking a GroupMe friend's language based on their 
 
 1. Clone the repository
 2. In groupme-mimic/settings.json, define your bot parameters
+
     ```
     {
     "token": "" // enter token name,
@@ -17,6 +18,7 @@ Generates a bot capable of mimicking a GroupMe friend's language based on their 
     "frequency_per_day": 4 // number of times to post a day
     }
     ```
+
 3. `$ groupme-mimic/register.py`
 4. `$ groupme-mimic/script.py`
 5. Deploy to a web server to run indefinitely!
