@@ -1,7 +1,6 @@
 import requests
 import json
 from lib.scrape.groupme import get_groupme_info
-from settings import GLOBALS, BOT
 
 
 def register_bot(token, group_name, user_name, bot_name, avatar_url):

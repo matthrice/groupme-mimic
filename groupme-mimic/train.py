@@ -2,7 +2,6 @@
 import os
 from lib.markov.model import model_markov
 from lib.scrape.groupme import scrape_history, get_groupme_info
-from settings import GLOBALS, BOT
 import pickle
 
 
