@@ -1,7 +1,5 @@
-*.txt
 *.zip
 __pycache__
 *.pickle
 *.DS_Store
 *.sqlite
-*.env
