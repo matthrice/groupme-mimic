@@ -1,25 +1,8 @@
-// settings.json
-// Fill out the following groupme bot information
-
 {
-    // Token can be found at https://dev.groupme.com/
-    // in the upper right hand corner after logging in
     "token": "NC1Kw8CCNntVfjBTU5VDc2F6OOGT7sn912dDx5i3",
-
-    // Group name within groupme
     "group_name": "test",
-
-    // User name within group specified above
-    // Be careful to note if the name of the person changes
     "user_name": "Matt Rice",
-
-    // Desired name for groupme bot
     "bot_name": "matt",
-
-    // URL for an avatar picture for bot
     "avatar_url": "https://vignette.wikia.nocookie.net/ghostbusters/images/1/11/Bill_Murray.jpeg/revision/latest?cb=20081013140955",
-
-    // How many times per day the bot may post
     "frequency_per_day": 4
-
 }

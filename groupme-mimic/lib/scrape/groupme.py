@@ -48,8 +48,13 @@ def get_url(token, chat_type, chat_ID):
 
 def get_json(url):
     """Retrieve json from url"""
-    res = requests.get(url=url)
+    try:
+        res = requests.get(url=url)
+    except requests.exceptions.HTTPError as e:
+        return "Error: " + str(e)
+
     json = res.json()
+
 
     return json
 

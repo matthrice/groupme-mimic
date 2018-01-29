@@ -1,6 +1,6 @@
 from train import train
 from lib.markov.generate import generate
-from bot import write_message, destroy_bot
+from bot import write_message
 import pickle
 import time
 import json

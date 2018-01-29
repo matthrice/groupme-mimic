@@ -13,7 +13,12 @@ def register_bot(token, group_name, user_name, bot_name, avatar_url):
 			"group_id" : chat_id
 		}
 	}
-	res = requests.post(URL, data=json.dumps(bot_data));
+	try:
+		res = requests.post(URL, data=json.dumps(bot_data));
+	except requests.exceptions.HTTPError as e:
+		print("Error: " + str(e))
+		exit(1)
+
 	json_obj = res.json()
 	return {
 		'chat_id': chat_id,
@@ -29,13 +34,9 @@ def write_message(bot_id, message):
 		"bot_id": bot_id,
 		"text": message
 	}
+	try:
+		res = requests.post(URL, data=json.dumps(bot_data))
+	except requests.exceptions.HTTPError as e:
+		print("Error: " + str(e))
+		exit(1)
 
-	res = requests.post(URL, data=json.dumps(bot_data))
-
-def destroy_bot(bot_id):
-	URL = "https://api.groupme.com/v3/bots/destroy"
-	bot_data = {
-		"bot_id" : bot_id
-	}
-
-	res = requests.post(URL, data=json.dumps(bot_data))
