@@ -4,6 +4,20 @@
 
 Generates a bot capable of mimicking a GroupMe friend's language based on their history in a specific chat.
 
+### Getting Started
+
+1. Clone the repository
+2. In groupme-mimic/settings.json, define your bot parameters
+    `{
+    "token": "" // enter token name,
+    "group_name": "" // enter group chat name,
+    "user_name": "" // enter username from that group,
+    "bot_name": "" // give bot a name,
+    "frequency_per_day": 4 // number of times to post a day
+    }`
+3. `$ groupme-mimic/register.py`
+4. `$ groupme-mimic/script.py`
+5. Deploy to a web server to run indefinitely!
 ### GroupMe Scraping
 
 Provided the following parameters, the scraper is capable over reviewing many thousands of messages to compile a full history of the friend:
@@ -29,12 +43,3 @@ We train the Markov model using the full messaging history we just scraped off G
 We start at one of the many words that occur at the beginning of sentences (indicated by the state 'START') and end at one of the many words which end sentences (indicated by the state 'END'). At each iteration, we randomly choose the next word based on which words commonly follow the previous and their frequencies. The resulting sentences is a somewhat accurate depiction of the friend's historical language.
 
 
-### Current flaws
-- Doesn't check for grammar, resulting in a lot of sentences which are nonsense
-    - http://www.nltk.org/book/ch08.html
-- Little to none error checking. Potential errors:
-    - registering twice
-    - not registering at all
-    - not providing a valid groupname
-    - not providing a valid username
-    - heroku specification
