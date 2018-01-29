@@ -1,6 +1,7 @@
 """
-Script to generate groupme history
+groupme.py
 
+Script to generate groupme history
 Access token from: https://dev.groupme.com/
 """
 
@@ -12,17 +13,19 @@ import requests
 import requests_cache
 from json import load
 
-TOKEN = 'b9rW31lfwxhnxLHWt0M86sAqjfVTtdu2KFQEXffO'
-LIST_CERF_ID = '28057504'
-BAKER_ID = '20810670'
-
-MESSAGE_LIMIT = 100
-
+"""Install HTTP request cache"""
 requests_cache.install_cache('groupme-cache')
 
 
 def check_token(token):
-    """Check the validity of the access token."""
+    """
+    Check the validity of the access token
+
+    Params:
+        @token - GroupMe API token
+    Return:
+        Bool indicating token validity
+    """
     try:
         get_self_id(token)
         valid = True
@@ -33,7 +36,16 @@ def check_token(token):
 
 
 def get_url(token, chat_type, chat_ID):
-    """Retrieve url for chat"""
+    """
+    Retrieve url for chat
+
+    Params:
+        @token - GroupMe API token
+        @chat_type - group or direct
+        @chat_id - GroupMe chat id
+    Return:
+        URL for requesting chat
+    """
     if chat_type == 'group':
         url = 'https://api.groupme.com/v3/groups/{}/messages'.format(chat_ID)
         url += "?token={}".format(token)
@@ -47,7 +59,14 @@ def get_url(token, chat_type, chat_ID):
     return url
 
 def get_json(url):
-    """Retrieve json from url"""
+    """
+    Retrieve json from url
+
+    Params:
+        @url - url to send request
+    Return:
+        JSON object of response
+    """
     try:
         res = requests.get(url=url)
     except requests.exceptions.HTTPError as e:
@@ -60,7 +79,14 @@ def get_json(url):
 
 
 def get_self_id(token):
-    """Obtain a user's ID given token"""
+    """
+    Obtain a user's ID given token
+
+    Params:
+        @token - GroupMe API token
+    Return:
+        personal ID
+    """
     url = "https://api.groupme.com/v3/users/me?token={}".format(token)
     json = get_json(url)
     user_id = json['response']['user_id']
@@ -68,7 +94,14 @@ def get_self_id(token):
     return user_id
 
 def get_groups(token):
-    """Return a list of group chats' IDs and names."""
+    """
+    Return a list of group chats' IDs and names
+
+    Params:
+        @token - GroupMe API token
+    Return:
+        All group names
+    """
     url = 'https://api.groupme.com/v3/groups?token={}'.format(token)
     json = get_json(url)
     response = json['response']
@@ -82,7 +115,14 @@ def get_groups(token):
     return groups
 
 def get_directs(token):
-    """Return a list of direct message chats' IDs and names."""
+    """
+    Return a list of direct message chats' IDs and names
+
+    Params:
+        @token - GroupMe API token
+    Return:
+        direct message chats
+    """
     url = 'https://api.groupme.com/v3/chats?token={}'.format(token)
     json = get_json(url)
     response = json['response']
@@ -96,14 +136,17 @@ def get_directs(token):
     return directs
 
 def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
-    """ Create a full chat history for a specific
+    """Create a full chat history for a specific
 
-    @name - name of person
-    @json - GroupMe API response in JSON format
-    @url - URL being worked with
-    @chat_type - the type of chat ('group' or 'direct')
-    @chat_id - the chat's id
-    @msg_count - total number of messages in the chat
+    Params:
+        @name - name of person
+        @json - GroupMe API response in JSON format
+        @url - URL being worked with
+        @chat_type - the type of chat ('group' or 'direct')
+        @chat_id - the chat's id
+        @msg_count - total number of messages in the chat
+    Return:
+        Full history of a group chat as list
     """
 
     msg = ''
@@ -136,7 +179,14 @@ def create_history(id, json, url, chat_type, chat_ID, msg_count, msg_limit):
 
 
 def write_single_history(path, name, full_history):
-    """Records all text from an individual in a readable format"""
+    """
+    Records all text from an individual in a readable format
+
+    Params:
+        @path - path name to write to resources
+        @name - name to write
+        @full_history - all messages in list form
+    """
     filename = os.path.join(path, '{}chathistory.txt'.format(name))
     filename = filename.replace(' ', '_')
     f = open(filename, 'w+')
@@ -150,6 +200,13 @@ def write_single_history(path, name, full_history):
     f.close()
 
 def clean_message(text):
+    """Clean text before creating history
+
+    Params:
+        @text - line of text to be cleaned
+    Returns:
+        clean text
+    """
     text = text.replace('@', '') # remove @ symbols
     text = text.replace('*', '') # remove * symbols
     text = text.strip(' ')          # strip whitespace
@@ -161,7 +218,7 @@ def clean_message(text):
 def scrape_history(token, group_id, user_id, user_name, path, message_count, message_limit):
     """Method to scrape for all user groupme history
 
-    Parameters:
+    Params:
         @token: dev groupme token
         @group_id: groupme group id
         @user_id: groupme user_id
@@ -179,12 +236,13 @@ def scrape_history(token, group_id, user_id, user_name, path, message_count, mes
 def get_groupme_info(token, chat_name, user_name):
     """Returns chat_id, user_id info
 
-    Parameters:
+    Params:
         @token: dev API token
         @chat_name: name of desired chat
         @user_name: name of desired user
 
-        Returns chat_id and user_id
+    Return:
+        chat_id and user_id
     """
 
     json = get_json('https://api.groupme.com/v3/groups?token={}'.format(token))
