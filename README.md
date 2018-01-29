@@ -37,3 +37,4 @@ We start at one of the many words that occur at the beginning of sentences (indi
     - not registering at all
     - not providing a valid groupname
     - not providing a valid username
+    - heroku specification
