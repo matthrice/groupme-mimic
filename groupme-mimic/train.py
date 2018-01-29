@@ -27,7 +27,7 @@ def train(token, chat_id, user_id, user_name, history_path, model_path, msg_coun
 
 
     """
-	filename = user_name.replace(" ", "")
-	scrape_history(token, chat_id, user_id, filename, history_path, msg_count, msg_limit)
-	model_markov(history_path, model_path, filename)
+    filename = user_name.replace(" ", "")
+    scrape_history(token, chat_id, user_id, filename, history_path, msg_count, msg_limit)
+    model_markov(history_path, model_path, filename)
 

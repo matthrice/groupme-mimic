@@ -35,7 +35,7 @@ def check_token(token):
     return valid
 
 
-def get_url(token, chat_type, chat_ID):
+def get_url(token, chat_type, chat_ID, msg_limit):
     """
     Retrieve url for chat
 
@@ -43,6 +43,7 @@ def get_url(token, chat_type, chat_ID):
         @token - GroupMe API token
         @chat_type - group or direct
         @chat_id - GroupMe chat id
+        @msg_limit - limit of messages per query (max 100)
     Return:
         URL for requesting chat
     """
@@ -54,7 +55,7 @@ def get_url(token, chat_type, chat_ID):
         url += '?other_user_id={}'.format(chat_ID)
         url += "&token={}".format(token)
 
-    url += "&limit={}".format(MESSAGE_LIMIT)
+    url += "&limit={}".format(msg_limit)
 
     return url
 
@@ -228,7 +229,7 @@ def scrape_history(token, group_id, user_id, user_name, path, message_count, mes
         @msg_limit: set at 100
 
     """
-    url = get_url(token, 'group', group_id)
+    url = get_url(token, 'group', group_id, message_limit)
     i_json = get_json(url)
     history = create_history(user_id, i_json, url, 'group', group_id, message_count, message_limit)
     write_single_history(path, user_name, history)

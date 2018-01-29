@@ -30,8 +30,7 @@ settings = json.load(open(SETTINGS_PATH))
 bot_info = register_bot(settings['token'],
              settings['group_name'],
              settings['user_name'],
-             settings['bot_name'],
-             settings['avatar_url']
+             settings['bot_name']
              )
 
 """Keep bot_id in persistent storage for use by message script"""
